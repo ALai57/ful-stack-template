@@ -35,6 +35,11 @@
   :main clj.handler
   :figwheel {:ring-handler clj.handler/app
              :css-dirs ["resources/public/css"]}
+
+  :clean-targets ^{:protect false} [:target-path :compile-path
+                                    "resources/public/js/compiled/out_cljs_spa"
+                                    "resources/public/js/compiled/out"]
+
   :cljsbuild {:builds
               [{:id "dev"
                 :source-paths ["src/cljs"]
@@ -42,7 +47,7 @@
                 ;; The presence of a :figwheel configuration here
                 ;; will cause figwheel to inject the figwheel client
                 ;; into your build
-                :figwheel {:open-urls ["http://localhost:3449/index.html"]}
+                :figwheel {:open-urls ["http://localhost:3449/example"]}
 
                 :compiler {:main full_stack_template.example
                            :asset-path "js/compiled/out"
@@ -52,22 +57,30 @@
                            :npm-deps {:capitalize "2.0.0"}
                            :install-deps true}}
 
-               #_{:id "cljs_spa"
-                  :source-paths ["src/cljs_spa"]
+               {:id "cljs_spa"
+                :source-paths ["src/cljs_spa"]
 
-                  ;; The presence of a :figwheel configuration here
-                  ;; will cause figwheel to inject the figwheel client
-                  ;; into your build
-                  :figwheel {:open-urls ["http://localhost:3449/index.html"]}
+                ;; The presence of a :figwheel configuration here
+                ;; will cause figwheel to inject the figwheel client
+                ;; into your build
+                :figwheel {:open-urls ["http://localhost:3449/spa"]}
 
-                  :compiler {:main full_stack_template.cljs_spa
-                             :asset-path "js/compiled/out"
-                             :output-to "resources/public/js/compiled/cljs_spa.js"
-                             :output-dir "resources/public/js/compiled/out_cljs_spa"
-                             :source-map-timestamp true}}
+                :compiler {:main cljs_spa.core
+                           :asset-path "js/compiled/out_cljs_spa"
+                           :output-to "resources/public/js/compiled/cljs_spa.js"
+                           :output-dir "resources/public/js/compiled/out_cljs_spa"
+                           :npm-deps {:router5 "6.4.2"
+                                      ;;:router5-plugin-browser "7.0.2"
+                                      }
+                           :install-deps true
+                           :infer-externs true
+                           :source-map-timestamp true}}
                ]}
   :profiles {:dev {:dependencies []
                    :plugins [[lein-ancient "0.6.15"]
                              [lein-bikeshed "0.5.2"]
                              [lein-kibit "0.1.6"]
-                             [lein-ring "0.12.5"]]}})
+                             [lein-ring "0.12.5"]
+                             [figwheel-sidecar "0.5.16"]
+                             ]}})
+

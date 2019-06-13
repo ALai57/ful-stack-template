@@ -31,9 +31,13 @@
     (GET "/example" []
       (-> (resource-response "example.html" {:root "public"})
           (content-type "text/html")))
-    
+
     (GET "/ping" []
       (ok {:service-status "ok"}))
+
+    (GET "/spa" []
+      (-> (resource-response "spa.html" {:root "public"})
+          (content-type "text/html")))
 
     (GET "/mock-data" []
       (ok mock/mock-data))

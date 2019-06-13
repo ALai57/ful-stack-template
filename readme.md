@@ -62,3 +62,5 @@ sudo apt-get update
 sudo apt-get install npm
 ```
 
+Need NPM 5.6 - errors with higher versions
+sudo npm i -g npm@5.6.0
